@@ -44,6 +44,7 @@ const App = () => {
             <table border={1} cellPadding={10}>
                 <thead>
                     <tr>
+                        <th><input type="checkbox" /></th>
                         <th>Name</th>
                         <th>Age</th>
                         <th>City</th>
@@ -52,6 +53,7 @@ const App = () => {
                 </thead>
                 <tbody>
                     {userList.map((user) => <tr key={user.id}>
+                        <td><input type="checkbox" /></td>
                         <td>{user.name}</td>
                         <td>{user.age}</td>
                         <td>{user.city}</td>
