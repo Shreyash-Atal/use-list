@@ -32,10 +32,11 @@ const App = () => {
             state: 'WA'
         }
     ]
-    const {list: userList, addItem: addUser, deleteItem: deleteUser} = useList(sampleList)
+    const {list: userList, addItem: addUser, deleteItem: deleteUser, toggleSelectItem: toggleSelectUser} = useList(sampleList, {selectedProp: 'chosen'})
     const newUser = {id: 10 + Math.round(Math.random() * 100), name: 'Edwin Thomas', age: 41, city: 'Miami', state: 'FL'}
     return (
         <div>
+            <style>{`.selected-row { background: hsl(0, 0%, 90%) }`}</style>
             <div>
                 <button onClick={(evt) => { addUser(newUser, 2) }}>Add User</button> &nbsp;
                 <button onClick={(evt) => { deleteUser(1) }}>Delete User</button>
@@ -52,8 +53,8 @@ const App = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {userList.map((user) => <tr key={user.id}>
-                        <td><input type="checkbox" /></td>
+                    {userList.map((user, userIndex) => <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
+                        <td><input type="checkbox" value={user.chosen} onChange={(evt) => { toggleSelectUser(userIndex, !evt.target.value) }} /></td>
                         <td>{user.name}</td>
                         <td>{user.age}</td>
                         <td>{user.city}</td>
