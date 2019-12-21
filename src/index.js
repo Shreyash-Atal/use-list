@@ -1,13 +1,32 @@
-import * as React from 'react'
+import {useEffect, useState} from 'react'
 
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
 export const useList = (
     inputList = [],
     options = {
-        selectedProp: 'isSelected'
+        selectedProp: 'isSelected',
+        matchedProp: 'isMatched'
     }) => {
-    const [list, setList] = React.useState(inputList || [])
+    /* const defaultOptions = {
+        selectedProp: 'isSelected',
+        matchedProp: 'isMatched'
+    } */
+    const [list, setList] = useState(inputList || [])
+
+    useEffect(() => {
+        const updatedList = inputList.map((item) => {
+            if (options && options.selectedProp != null) {
+                if (item[options.selectedProp] === undefined) {
+                    item[options.selectedProp] = false
+                    return item
+                }
+            } else {
+                item['isSelected'] = false
+            }
+        })
+        setList(updatedList)
+    }, [])
 
     const addItem = (item = {}, index = 0) => {
         const updatedList = clone(list)
@@ -15,9 +34,14 @@ export const useList = (
         setList(updatedList)
     }
 
-    const deleteItem = (index = 0) => {
+    const deleteItem = (index = null) => {
         const updatedList = clone(list)
         updatedList.splice(index, 1)
+        setList(updatedList)
+    }
+
+    const deleteItems = (indices = []) => {
+        const updatedList = clone(list).filter((item, itemIndex) => !indices.includes(itemIndex))
         setList(updatedList)
     }
 
@@ -28,17 +52,26 @@ export const useList = (
         setList(updatedList)
     }
 
-    return {list, addItem, deleteItem, toggleSelectItem}
+    const toggleSelectAllItems = (doSelect = false) => {
+        if (!options) return
+        const updatedList = clone(list).map(item => {
+            item[options.selectedProp] = doSelect
+            return item
+        })
+        setList(updatedList)
+    }
+
+    return {list, addItem, deleteItem, deleteItems, toggleSelectItem, toggleSelectAllItems}
 }
 
-export const useMyHook = () => {
+/* export const useMyHook = () => {
     let [{
         counter
-    }, setState] = React.useState({
+    }, setState] = useState({
         counter: 0
     })
 
-    React.useEffect(() => {
+    useEffect(() => {
         let interval = window.setInterval(() => {
             counter++
             setState({counter})
@@ -49,4 +82,4 @@ export const useMyHook = () => {
     }, [])
 
     return counter
-}
+} */
