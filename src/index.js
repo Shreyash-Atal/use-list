@@ -2,7 +2,11 @@ import * as React from 'react'
 
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
-export const useList = (inputList = []) => {
+export const useList = (
+    inputList = [],
+    options = {
+        selectedProp: 'isSelected'
+    }) => {
     const [list, setList] = React.useState(inputList || [])
 
     const addItem = (item = {}, index = 0) => {
@@ -17,7 +21,14 @@ export const useList = (inputList = []) => {
         setList(updatedList)
     }
 
-    return {list, addItem, deleteItem}
+    const toggleSelectItem = (index = 0, doSelect = false) => {
+        if (!(options && list[index])) return
+        const updatedList = clone(list)
+        updatedList[index][options.selectedProp] = doSelect
+        setList(updatedList)
+    }
+
+    return {list, addItem, deleteItem, toggleSelectItem}
 }
 
 export const useMyHook = () => {
