@@ -64,7 +64,7 @@ export const useList = (
     return {list, addItem, deleteItem, deleteItems, toggleSelectItem, toggleSelectAllItems}
 }
 
-export const useMyHook = () => {
+/* export const useMyHook = () => {
     let [{
         counter
     }, setState] = useState({
@@ -82,4 +82,4 @@ export const useMyHook = () => {
     }, [])
 
     return counter
-}
+} */

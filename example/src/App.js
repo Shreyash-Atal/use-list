@@ -44,7 +44,7 @@ const App = () => {
             age: 20,
             city: 'Chicago',
             state: 'IL'
-        },
+        }
     ]
     const {list: userList, addItem: addUser, deleteItem: deleteUser, deleteItems: deleteUsers, toggleSelectItem: toggleSelectUser, toggleSelectAllItems: toggleSelectAllUsers} = useList(sampleList, {selectedProp: 'chosen'})
     const newUser = {id: 10 + Math.round(Math.random() * 100), name: 'Edwin Thomas', age: 41, city: 'Miami', state: 'FL'}
