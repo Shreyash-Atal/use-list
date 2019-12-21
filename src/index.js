@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
@@ -34,9 +34,14 @@ export const useList = (
         setList(updatedList)
     }
 
-    const deleteItem = (index = 0) => {
+    const deleteItem = (index = null) => {
         const updatedList = clone(list)
         updatedList.splice(index, 1)
+        setList(updatedList)
+    }
+
+    const deleteItems = (indices = []) => {
+        const updatedList = clone(list).filter((item, itemIndex) => !indices.includes(itemIndex))
         setList(updatedList)
     }
 
@@ -56,7 +61,7 @@ export const useList = (
         setList(updatedList)
     }
 
-    return {list, addItem, deleteItem, toggleSelectItem, toggleSelectAllItems}
+    return {list, addItem, deleteItem, deleteItems, toggleSelectItem, toggleSelectAllItems}
 }
 
 export const useMyHook = () => {

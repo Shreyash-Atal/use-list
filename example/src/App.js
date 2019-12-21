@@ -30,13 +30,27 @@ const App = () => {
             age: 29,
             city: 'Seattle',
             state: 'WA'
-        }
+        },
+        {
+            id: 4,
+            name: 'Emma Lee',
+            age: 37,
+            city: 'Washington',
+            state: 'DC'
+        },
+        {
+            id: 5,
+            name: 'Fred Stein',
+            age: 20,
+            city: 'Chicago',
+            state: 'IL'
+        },
     ]
-    const {list: userList, addItem: addUser, deleteItem: deleteUser, toggleSelectItem: toggleSelectUser, toggleSelectAllItems: toggleSelectAllUsers} = useList(sampleList, {selectedProp: 'chosen'})
+    const {list: userList, addItem: addUser, deleteItem: deleteUser, deleteItems: deleteUsers, toggleSelectItem: toggleSelectUser, toggleSelectAllItems: toggleSelectAllUsers} = useList(sampleList, {selectedProp: 'chosen'})
     const newUser = {id: 10 + Math.round(Math.random() * 100), name: 'Edwin Thomas', age: 41, city: 'Miami', state: 'FL'}
     const [allUsersSelected, setAllUsersSelected] = useState(false)
 
-    const handleSelectAllUsers = (evt) => {
+    const handleSelectAllUsers = () => {
         toggleSelectAllUsers(!allUsersSelected)
         setAllUsersSelected(!allUsersSelected)
     }
@@ -45,8 +59,9 @@ const App = () => {
         <div>
             <style>{`.selected-row { background: hsl(0, 0%, 90%) }`}</style>
             <div>
-                <button onClick={(evt) => { addUser(newUser, 2) }}>Add User</button> &nbsp;
-                <button onClick={(evt) => { deleteUser(1) }}>Delete User</button>
+                <button onClick={() => { addUser(newUser, 2) }}>Add User</button> &nbsp;
+                <button onClick={() => { deleteUser(0) }}>Delete First User</button> &nbsp;
+                <button onClick={() => { deleteUsers(userList.reduce((indices, user, userIndex) => { user.chosen && indices.push(userIndex); return indices }, [])) }}>Delete Selected Users</button>
             </div>
             <br />
             <table border={1} cellPadding={10}>
