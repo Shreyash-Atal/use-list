@@ -2,52 +2,52 @@ import React, {useEffect, useState} from 'react'
 import './index.css'
 import {useList} from 'use-list'
 
-const App = () => {
-    const sampleList = [
-        {
-            id: 0,
-            name: 'Alice Smith',
-            age: 23,
-            city: 'New York',
-            state: 'NY'
-        },
-        {
-            id: 1,
-            name: 'Bob Jones',
-            age: 32,
-            city: 'Los Angeles',
-            state: 'CA'
-        },
-        {
-            id: 2,
-            name: 'Christine Miller',
-            age: 25,
-            city: 'Boston',
-            state: 'MA'
-        },
-        {
-            id: 3,
-            name: 'David Adams',
-            age: 29,
-            city: 'Seattle',
-            state: 'WA'
-        },
-        {
-            id: 4,
-            name: 'Emma Lee',
-            age: 37,
-            city: 'Washington',
-            state: 'DC'
-        },
-        {
-            id: 5,
-            name: 'Fred Stein',
-            age: 20,
-            city: 'Chicago',
-            state: 'IL'
-        }
-    ]
+const sampleList = [
+    {
+        id: 0,
+        name: 'Alice Smith',
+        age: 23,
+        city: 'New York',
+        state: 'NY'
+    },
+    {
+        id: 1,
+        name: 'Bob Jones',
+        age: 32,
+        city: 'Los Angeles',
+        state: 'CA'
+    },
+    {
+        id: 2,
+        name: 'Christine Miller',
+        age: 25,
+        city: 'Boston',
+        state: 'MA'
+    },
+    {
+        id: 3,
+        name: 'David Adams',
+        age: 29,
+        city: 'Seattle',
+        state: 'WA'
+    },
+    {
+        id: 4,
+        name: 'Emma Lee',
+        age: 37,
+        city: 'Washington',
+        state: 'DC'
+    },
+    {
+        id: 5,
+        name: 'Fred Stein',
+        age: 20,
+        city: 'Chicago',
+        state: 'IL'
+    }
+]
 
+const App = () => {
     const {
         list: users,
         addItem: addUser,
@@ -72,7 +72,7 @@ const App = () => {
         setTimeout(() => {
             setUsers(sampleList)
         }, 500)
-    }, [])
+    }, [setUsers])
 
     const handleSelectAllUsers = () => {
         toggleSelectAllUsers(!allUsersSelected)

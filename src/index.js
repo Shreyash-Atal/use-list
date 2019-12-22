@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 
 const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
@@ -17,7 +17,7 @@ export const useList = (
         setList(inputList)
     }, [])
 
-    const setList = (list) => {
+    const setList = useCallback((list) => {
         const updatedList = list.map((item) => {
             const selectedProp = (options && options.selectedProp) || 'isSelected'
             const matchedProp = (options && options.matchedProp) || 'isMatched'
@@ -26,7 +26,7 @@ export const useList = (
             return item
         })
         setListData(updatedList)
-    }
+    }, [])
 
     const addItem = (item = {}, index = 0) => {
         const updatedList = clone(listData)
