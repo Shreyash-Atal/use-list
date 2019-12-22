@@ -1,5 +1,13 @@
-/* body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-} */
+body {
+    padding: 40px;
+    font-family: sans-serif;
+}
+
+button {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.selected-row {
+    background: hsl(0, 0%, 90%)
+}
