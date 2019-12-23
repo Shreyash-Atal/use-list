@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './index.css'
 import {useList} from 'use-list'
 
@@ -68,11 +68,12 @@ const App = () => {
 
     const [allUsersSelected, setAllUsersSelected] = useState(false)
 
-    useEffect(() => {
-        setTimeout(() => {
+    const fetchUsers = () => {
+        const timer = setTimeout(() => {
             setUsers(sampleList)
+            clearTimeout(timer)
         }, 500)
-    }, [setUsers])
+    }
 
     const handleSelectAllUsers = () => {
         toggleSelectAllUsers(!allUsersSelected)
@@ -82,6 +83,11 @@ const App = () => {
     return (
         <div>
             <div>
+                <button onClick={() => {
+                    fetchUsers()
+                }}>Fetch Users
+                </button>
+                &nbsp;
                 <button onClick={() => {
                     addUser(newUser, 2)
                 }}>Add User
@@ -113,19 +119,26 @@ const App = () => {
                         <th>user.isMatched</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {users.map((user, userIndex) => <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
-                        <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
-                            toggleSelectUser(userIndex, evt.target.checked)
-                        }} /></td>
-                        <td>{user.name}</td>
-                        <td>{user.age}</td>
-                        <td>{user.city}</td>
-                        <td>{user.state}</td>
-                        <td>{String(user.chosen)}</td>
-                        <td>{String(user.isMatched)}</td>
-                    </tr>)}
-                </tbody>
+                {(users && users.length > 0) ? (
+                    <tbody>
+                        {users.map((user, userIndex) => (
+                            <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
+                                <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
+                                    toggleSelectUser(userIndex, evt.target.checked)
+                                }} /></td>
+                                <td>{user.name}</td>
+                                <td>{user.age}</td>
+                                <td>{user.city}</td>
+                                <td>{user.state}</td>
+                                <td>{String(user.chosen)}</td>
+                                <td>{String(user.isMatched)}</td>
+                            </tr>))}
+                    </tbody>)
+                    : (<tbody>
+                        <tr>
+                            <td colSpan={10}>No users found.</td>
+                        </tr>
+                    </tbody>)}
             </table>
         </div>
     )
