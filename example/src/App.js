@@ -44,9 +44,16 @@ const sampleList = [
         age: 20,
         city: 'Chicago',
         state: 'IL'
+    },
+    {
+        id: 6,
+        name: 'Chris Harris',
+        age: 22,
+        city: 'Chicago',
+        state: 'IL'
     }
 ]
-
+let order = false;
 const App = () => {
     const {
         list: users,
@@ -54,6 +61,7 @@ const App = () => {
         deleteItem: deleteUser,
         deleteItems: deleteUsers,
         setList: setUsers,
+        sortItems: sortUsers,
         toggleSelectItem: toggleSelectUser,
         toggleSelectAllItems: toggleSelectAllUsers
     } = useList([], {selectedProp: 'chosen'})
@@ -96,6 +104,11 @@ const App = () => {
                 <button onClick={() => {
                     deleteUser(0)
                 }}>Delete First User
+                </button>
+                &nbsp;
+                <button onClick = {() => {
+                    sortUsers('name', order = !order)
+                }}>Sort Toggle
                 </button>
                 &nbsp;
                 <button onClick={() => {
