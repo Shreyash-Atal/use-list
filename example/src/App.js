@@ -2,58 +2,73 @@ import React, {useState} from 'react'
 import './index.css'
 import {useList} from 'use-list'
 
+const columns = [{id: 'name', title: 'Name', sort: null},
+            {id: 'age', title: 'Age', sort: null},
+            {id: 'city', title: 'City', sort: null},
+            {id: 'state', title: 'State', sort: null},
+            {id: 'hobbies', title: 'Hobbies', sort: null},
+            {id: 'user.chosen', title: 'user.chosen', sort: null},
+            {id: 'user.isMatched', title: 'user.isMatched', sort: null}
+]
 const sampleList = [
     {
         id: 0,
         name: 'Alice Smith',
         age: 23,
         city: 'New York',
-        state: 'NY'
+        state: 'NY',
+        hobbies: ['Basketball', 'Football', '']
     },
     {
         id: 1,
         name: 'Bob Jones',
         age: 32,
         city: 'Los Angeles',
-        state: 'CA'
+        state: 'CA',
+        hobbies: []
     },
     {
         id: 2,
         name: 'Christine Miller',
         age: 25,
         city: 'Boston',
-        state: 'MA'
+        state: 'MA',
+        hobbies: ['Tennis','Cricket', 'Football', 'Foot', 'Fo']
     },
     {
         id: 3,
         name: 'David Adams',
         age: 29,
         city: 'Seattle',
-        state: 'WA'
+        state: 'WA',
+        hobbies: ['Football', '', 'Cricket']
     },
     {
         id: 4,
         name: 'Emma Lee',
         age: 37,
         city: 'Washington',
-        state: 'DC'
+        state: 'DC',
+        hobbies: ['Cricket', 'Football', null]
     },
     {
         id: 5,
         name: 'Fred Stein',
         age: 20,
         city: 'Chicago',
-        state: 'IL'
+        state: 'IL',
+        hobbies: null
     },
     {
         id: 6,
         name: 'Chris Harris',
-        age: 22,
+        age: null,
         city: 'Chicago',
-        state: 'IL'
+        state: 'IL',
+        hobbies: ['Cricket', 'Football']
     }
 ]
-let order = false;
+
 const App = () => {
     const {
         list: users,
@@ -75,6 +90,7 @@ const App = () => {
     }
 
     const [allUsersSelected, setAllUsersSelected] = useState(false)
+    const [ascending, setAscending] = useState(true)
 
     const fetchUsers = () => {
         const timer = setTimeout(() => {
@@ -96,6 +112,7 @@ const App = () => {
                 }}>Fetch Users
                 </button>
                 &nbsp;
+                &nbsp;
                 <button onClick={() => {
                     addUser(newUser, 2)
                 }}>Add User
@@ -104,11 +121,6 @@ const App = () => {
                 <button onClick={() => {
                     deleteUser(0)
                 }}>Delete First User
-                </button>
-                &nbsp;
-                <button onClick = {() => {
-                    sortUsers('name', order = !order)
-                }}>Sort Toggle
                 </button>
                 &nbsp;
                 <button onClick={() => {
@@ -120,16 +132,20 @@ const App = () => {
                 </button>
             </div>
             <br />
+
             <table border={1} cellPadding={10} style={{borderColor: '#cccccc', borderCollapse: 'collapse'}}>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>user.chosen</th>
-                        <th>user.isMatched</th>
+                        <th onClick = {() => {
+                    sortUsers('name', ascending)
+                    setAscending(!ascending)
+                }}><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
+                {columns.map((column) => (
+                    <th onClick= {()=> {
+                            sortUsers(column.id, column.sort)
+                            column.sort = !column.sort
+                        }}>{column.title} {column.sort? <span>&#9650;</span>: <span>&#9660;</span>}</th>
+                ))}
                     </tr>
                 </thead>
                 {(users && users.length > 0) ? (
@@ -143,6 +159,7 @@ const App = () => {
                                 <td>{user.age}</td>
                                 <td>{user.city}</td>
                                 <td>{user.state}</td>
+                                <td>{user.hobbies && user.hobbies.join(', ')}</td>
                                 <td>{String(user.chosen)}</td>
                                 <td>{String(user.isMatched)}</td>
                             </tr>))}

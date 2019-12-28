@@ -32,15 +32,20 @@ export const useList = (inputList = [], options = defaultOptions) => {
         setList(updatedList);
     };
 
-    const sortItems = (property, order = false) => {
+    //
+    const sortItems = (property = null, ascending = true) => {
+        if(property == null || typeof property !== 'string') {
+            return
+        }
         let updatedList = clone(listData);
         updatedList.sort(function(a,b) {
-            var x = a[property].toLowerCase();
-            var y = b[property].toLowerCase();
-            return x < y ? -1 : x > y ? 1 : 0;
+            const x = (typeof a[property] === 'string') ? a[property].toLowerCase(): a[property];
+            const y = (typeof b[property] === 'string') ? b[property].toLowerCase(): b[property];
+            const returnValue = ascending ? -1 : 1;
+            return x < y ? returnValue : x > y ? -returnValue : 0;
         });
-        updatedList = order ? updatedList.reverse(): updatedList;
-        setList(updatedList);
+        // updatedList = ascending ? updatedList.reverse(): updatedList;
+        setList(updatedList)
     };
 
     const deleteItem = (index = null) => {
