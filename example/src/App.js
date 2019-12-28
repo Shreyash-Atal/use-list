@@ -112,7 +112,6 @@ const App = () => {
                 }}>Fetch Users
                 </button>
                 &nbsp;
-                &nbsp;
                 <button onClick={() => {
                     addUser(newUser, 2)
                 }}>Add User
