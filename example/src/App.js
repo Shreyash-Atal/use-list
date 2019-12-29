@@ -77,10 +77,12 @@ const App = () => {
         deleteItems: deleteUsers,
         setList: setUsers,
         sortItems: sortUsers,
+        filterItems: filterUsers,
         toggleSelectItem: toggleSelectUser,
         toggleSelectAllItems: toggleSelectAllUsers
     } = useList([], {selectedProp: 'chosen'})
 
+    const [filter, setFilter] = useState('')
     const newUser = {
         id: 10 + Math.round(Math.random() * 100),
         name: 'Edwin Thomas',
@@ -90,7 +92,6 @@ const App = () => {
     }
 
     const [allUsersSelected, setAllUsersSelected] = useState(false)
-    const [ascending, setAscending] = useState(true)
 
     const fetchUsers = () => {
         const timer = setTimeout(() => {
@@ -103,6 +104,11 @@ const App = () => {
         toggleSelectAllUsers(!allUsersSelected)
         setAllUsersSelected(!allUsersSelected)
     }
+
+    const handleFilterChange = event => {
+        filterUsers('name', event.target.value)
+        setFilter(event.target.value);
+      };
 
     return (
         <div>
@@ -131,14 +137,12 @@ const App = () => {
                 </button>
             </div>
             <br />
-
+            <input type="text" placeholder="Search" value={filter} onChange={handleFilterChange}/>
+            <br />
             <table border={1} cellPadding={10} style={{borderColor: '#cccccc', borderCollapse: 'collapse'}}>
                 <thead>
                     <tr>
-                        <th onClick = {() => {
-                    sortUsers('name', ascending)
-                    setAscending(!ascending)
-                }}><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
+                        <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
                 {columns.map((column) => (
                     <th onClick= {()=> {
                             sortUsers(column.id, column.sort)
