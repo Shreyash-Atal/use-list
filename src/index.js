@@ -49,19 +49,16 @@ export const useList = (inputList = [], options = defaultOptions) => {
     }
 
     const filterItems = (property = null, query) => {
-        console.log('query', query)
-        const regex = new RegExp('.*' + query + '.*', 'gi')
-        if(property == null || query == ''){
+        if(property == null){
             return
         }
         let updatedList = clone(listData)
-        updatedList.filter(item => regex.test(item[property]));
-            // const x = (typeof item[property] === 'string') ? item[property].toLowerCase(): item[property]
-            // x.includes(query)
-            // return x
-        // );
-        console.log('updatedList', updatedList)
-        setList(updatedList)
+        const results = !query ? updatedList : updatedList.filter(item => {
+            const x = (typeof item[property] === 'string') ? item[property].toLowerCase(): item[property]
+            const q = (typeof item[property] === 'string') ? query.toLowerCase(): query
+            return x.includes(q)
+        })
+        setListData(results)
     }
 
     const deleteItem = (index = null) => {
