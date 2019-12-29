@@ -3,12 +3,12 @@ import './index.css'
 import {useList} from 'use-list'
 
 const columns = [{id: 'name', title: 'Name', sort: null},
-            {id: 'age', title: 'Age', sort: null},
-            {id: 'city', title: 'City', sort: null},
-            {id: 'state', title: 'State', sort: null},
-            {id: 'hobbies', title: 'Hobbies', sort: null},
-            {id: 'user.chosen', title: 'user.chosen', sort: null},
-            {id: 'user.isMatched', title: 'user.isMatched', sort: null}
+    {id: 'age', title: 'Age', sort: null},
+    {id: 'city', title: 'City', sort: null},
+    {id: 'state', title: 'State', sort: null},
+    {id: 'hobbies', title: 'Hobbies', sort: null},
+    {id: 'user.chosen', title: 'user.chosen', sort: null},
+    {id: 'user.isMatched', title: 'user.isMatched', sort: null}
 ]
 const sampleList = [
     {
@@ -33,7 +33,7 @@ const sampleList = [
         age: 25,
         city: 'Boston',
         state: 'MA',
-        hobbies: ['Tennis','Cricket', 'Football', 'Foot', 'Fo']
+        hobbies: ['Tennis', 'Cricket', 'Football', 'Foot', 'Fo']
     },
     {
         id: 3,
@@ -107,8 +107,8 @@ const App = () => {
 
     const handleFilterChange = event => {
         filterUsers('name', event.target.value)
-        setFilter(event.target.value);
-      };
+        setFilter(event.target.value)
+    }
 
     return (
         <div>
@@ -136,19 +136,19 @@ const App = () => {
                 }}>Delete Selected Users
                 </button>
             </div>
-            <br />
+            <br/>
             <input type="text" placeholder="Search" value={filter} onChange={handleFilterChange}/>
-            <br />
+            <br/>
             <table border={1} cellPadding={10} style={{borderColor: '#cccccc', borderCollapse: 'collapse'}}>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
-                {columns.map((column) => (
-                    <th onClick= {()=> {
-                            sortUsers(column.id, column.sort)
-                            column.sort = !column.sort
-                        }}>{column.title} {column.sort? <span>&#9650;</span>: <span>&#9660;</span>}</th>
-                ))}
+                        <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers}/></th>
+                        {columns.map((column) => (
+                            <th onClick={() => {
+                                sortUsers(column.id, column.sort)
+                                column.sort = !column.sort
+                            }}>{column.title} {column.sort ? <span>&#9650;</span> : <span>&#9660;</span>}</th>
+                        ))}
                     </tr>
                 </thead>
                 {(users && users.length > 0) ? (
@@ -157,7 +157,7 @@ const App = () => {
                             <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
                                 <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
                                     toggleSelectUser(userIndex, evt.target.checked)
-                                }} /></td>
+                                }}/></td>
                                 <td>{user.name}</td>
                                 <td>{user.age}</td>
                                 <td>{user.city}</td>

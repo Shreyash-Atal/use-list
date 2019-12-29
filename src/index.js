@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from 'react'
 
 const clone = obj => JSON.parse(JSON.stringify(obj))
 
 const defaultOptions = {
-    selectedProp: "isSelected",
-    matchedProp: "isMatched"
+    selectedProp: 'isSelected',
+    matchedProp: 'isMatched'
 }
 
 export const useList = (inputList = [], options = defaultOptions) => {
@@ -17,8 +17,8 @@ export const useList = (inputList = [], options = defaultOptions) => {
     const setList = useCallback(list => {
         const updatedList = list.map(item => {
             const selectedProp =
-                (options && options.selectedProp) || "isSelected"
-            const matchedProp = (options && options.matchedProp) || "isMatched"
+                (options && options.selectedProp) || 'isSelected'
+            const matchedProp = (options && options.matchedProp) || 'isMatched'
             item[selectedProp] = !!item[selectedProp]
             item[matchedProp] = !!item[matchedProp]
             return item
@@ -34,13 +34,13 @@ export const useList = (inputList = [], options = defaultOptions) => {
 
     //
     const sortItems = (property = null, ascending = true) => {
-        if(property == null || typeof property !== 'string') {
+        if (property == null || typeof property !== 'string') {
             return
         }
         let updatedList = clone(listData)
-        updatedList.sort(function(a,b) {
-            const x = (typeof a[property] === 'string') ? a[property].toLowerCase(): a[property]
-            const y = (typeof b[property] === 'string') ? b[property].toLowerCase(): b[property]
+        updatedList.sort(function(a, b) {
+            const x = (typeof a[property] === 'string') ? a[property].toLowerCase() : a[property]
+            const y = (typeof b[property] === 'string') ? b[property].toLowerCase() : b[property]
             const returnValue = ascending ? -1 : 1
             return x < y ? returnValue : x > y ? -returnValue : 0
         })
@@ -49,13 +49,13 @@ export const useList = (inputList = [], options = defaultOptions) => {
     }
 
     const filterItems = (property = null, query) => {
-        if(property == null){
+        if (property == null) {
             return
         }
         let updatedList = clone(listData)
         const results = !query ? updatedList : updatedList.filter(item => {
-            const x = (typeof item[property] === 'string') ? item[property].toLowerCase(): item[property]
-            const q = (typeof item[property] === 'string') ? query.toLowerCase(): query
+            const x = (typeof item[property] === 'string') ? item[property].toLowerCase() : item[property]
+            const q = (typeof item[property] === 'string') ? query.toLowerCase() : query
             return x.includes(q)
         })
         setListData(results)
