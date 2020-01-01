@@ -153,7 +153,7 @@ const App = () => {
                 </thead>
                 {(users && users.length > 0) ? (
                     <tbody>
-                        {users.map((user, userIndex) => (
+                        {((filter != '')?users.filter(user => user.isMatched) : users).map((user, userIndex) => (
                             <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
                                 <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
                                     toggleSelectUser(userIndex, evt.target.checked)
