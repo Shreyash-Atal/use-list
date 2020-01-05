@@ -1,11 +1,28 @@
 body {
     padding: 40px;
     font-family: sans-serif;
+    font-size: 16px;
 }
 
 button {
     padding: 10px;
     font-size: 1rem;
+}
+
+input {
+    padding: 5px;
+    border: solid #cccccc 1px;
+    font-size: 16px;
+}
+
+table {
+    border: solid #cccccc 1px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: solid #cccccc 1px;
 }
 
 .selected-row {
