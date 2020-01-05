@@ -1,15 +1,18 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './index.css'
-import {useList} from 'use-list'
+import { useList } from 'use-list'
 
-const columns = [{id: 'name', title: 'Name', sort: null, filter: ''},
-            {id: 'age', title: 'Age', sort: null, filter: ''},
-            {id: 'city', title: 'City', sort: null, filter: ''},
-            {id: 'state', title: 'State', sort: null, filter: ''},
-            {id: 'hobbies', title: 'Hobbies', sort: null, filter: ''},
-            {id: 'user.chosen', title: 'user.chosen', sort: null, filter: ''},
-            {id: 'user.isMatched', title: 'user.isMatched', sort: null, filter: ''}
+const columns = [
+    { id: 'id', title: 'ID', sort: null },
+    { id: 'name', title: 'Name', sort: null },
+    { id: 'age', title: 'Age', sort: null },
+    { id: 'city', title: 'City', sort: null },
+    { id: 'state', title: 'State', sort: null },
+    { id: 'hobbies', title: 'Hobbies', sort: null },
+    { id: 'user.chosen', title: 'user.chosen', sort: null },
+    { id: 'user.isMatched', title: 'user.isMatched', sort: null },
 ]
+
 const sampleList = [
     {
         id: 0,
@@ -17,7 +20,7 @@ const sampleList = [
         age: 23,
         city: 'New York',
         state: 'NY',
-        hobbies: ['Basketball', 'Football', '']
+        hobbies: ['Basketball', 'Football', ''],
     },
     {
         id: 1,
@@ -25,7 +28,7 @@ const sampleList = [
         age: 32,
         city: 'Los Angeles',
         state: 'CA',
-        hobbies: []
+        hobbies: [],
     },
     {
         id: 2,
@@ -33,7 +36,7 @@ const sampleList = [
         age: 25,
         city: 'Boston',
         state: 'MA',
-        hobbies: ['Tennis','Cricket', 'Football', 'Foot', 'Fo']
+        hobbies: ['Tennis', 'Cricket', 'Football', 'Foot', 'Fo'],
     },
     {
         id: 3,
@@ -41,7 +44,7 @@ const sampleList = [
         age: 29,
         city: 'Seattle',
         state: 'WA',
-        hobbies: ['Football', '', 'Cricket']
+        hobbies: ['Football', '', 'Cricket'],
     },
     {
         id: 4,
@@ -49,7 +52,7 @@ const sampleList = [
         age: 37,
         city: 'Washington',
         state: 'DC',
-        hobbies: ['Cricket', 'Football', null]
+        hobbies: ['Cricket', 'Football', null],
     },
     {
         id: 5,
@@ -57,7 +60,7 @@ const sampleList = [
         age: 20,
         city: 'Chicago',
         state: 'IL',
-        hobbies: null
+        hobbies: null,
     },
     {
         id: 6,
@@ -65,8 +68,8 @@ const sampleList = [
         age: null,
         city: 'Chicago',
         state: 'IL',
-        hobbies: ['Cricket', 'Football']
-    }
+        hobbies: ['Cricket', 'Football'],
+    },
 ]
 
 const App = () => {
@@ -79,8 +82,8 @@ const App = () => {
         sortItems: sortUsers,
         filterItems: filterUsers,
         toggleSelectItem: toggleSelectUser,
-        toggleSelectAllItems: toggleSelectAllUsers
-    } = useList([], {selectedProp: 'chosen'})
+        toggleSelectAllItems: toggleSelectAllUsers,
+    } = useList([], { selectedProp: 'chosen' })
 
     const [filter, setFilter] = useState('')
     const newUser = {
@@ -88,7 +91,7 @@ const App = () => {
         name: 'Edwin Thomas',
         age: 41,
         city: 'Miami',
-        state: 'FL'
+        state: 'FL',
     }
 
     const [allUsersSelected, setAllUsersSelected] = useState(false)
@@ -105,64 +108,97 @@ const App = () => {
         setAllUsersSelected(!allUsersSelected)
     }
 
+    const handleFilterChange = event => {
+        filterUsers('name', event.target.value)
+        setFilter(event.target.value)
+    }
+
     return (
         <div>
             <div>
-                <button onClick={() => {
-                    fetchUsers()
-                }}>Fetch Users
+                <button
+                    onClick={() => {
+                        fetchUsers()
+                    }}>
+                    Fetch Users
                 </button>
                 &nbsp;
-                <button onClick={() => {
-                    addUser(newUser, 2)
-                }}>Add User
+                <button
+                    onClick={() => {
+                        addUser(newUser, 2)
+                    }}>
+                    Add User
                 </button>
                 &nbsp;
-                <button onClick={() => {
-                    deleteUser(0)
-                }}>Delete First User
+                <button
+                    onClick={() => {
+                        deleteUser(0)
+                    }}>
+                    Delete First User
                 </button>
                 &nbsp;
-                <button onClick={() => {
-                    deleteUsers(users.reduce((indices, user, userIndex) => {
-                        user.chosen && indices.push(userIndex)
-                        return indices
-                    }, []))
-                }}>Delete Selected Users
+                <button
+                    onClick={() => {
+                        deleteUsers(
+                            users.reduce((indices, user, userIndex) => {
+                                user.chosen && indices.push(userIndex)
+                                return indices
+                            }, []),
+                        )
+                    }}>
+                    Delete Selected Users
                 </button>
             </div>
             <br />
-
-            <br />
-            <table border={1} cellPadding={10} style={{borderColor: '#cccccc', borderCollapse: 'collapse'}}>
+            <table>
                 <thead>
                     <tr>
                         <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
-                {columns.map((column) => (
-                    <th>
-                    <div onClick= {()=> {
-                            sortUsers(column.id, column.sort)
-                            column.sort = !column.sort
-                        }}>{column.title} {column.sort? <span>&#9650;</span>: <span>&#9660;</span>}
-                    </div>
-                    <div>
-                    <input type="text" placeholder="Search" value={column.filter} onChange = { (event)=> {
-                        filterUsers(column.id, event.target.value)
-                        column.filter = event.target.value
-                        setFilter(event.target.value)
-                    }}/>
-                    </div>
-                    </th>
-                ))}
+                        {columns.map((column) => (
+                            <th>
+                                <div onClick={() => {
+                                    sortUsers(column.id, column.sort)
+                                    column.sort = !column.sort
+                                }}>{column.title} {column.sort ? <span>&#9650;</span> : <span>&#9660;</span>}
+                                </div>
+                                <div>
+                                    <input type="text" placeholder="Search" value={column.filter} onChange={(event) => {
+                                        filterUsers(column.id, event.target.value)
+                                        column.filter = event.target.value
+                                        setFilter(event.target.value)
+                                    }}/>
+                                </div>
+                            </th>
+                        ))}
                     </tr>
                 </thead>
-                {(users && users.length > 0) ? (
+                {users && users.length > 0 ? (
                     <tbody>
-                        {((filter !== '')?users.filter(user => user.isMatched) : users).map((user, userIndex) => (
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input type="text" placeholder="Filter by name" value={filter} onChange={handleFilterChange} />
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        {(filter !== '' ? users.filter(user => user.isMatched) : users).map((user, userIndex) => (
                             <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
-                                <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
-                                    toggleSelectUser(userIndex, evt.target.checked)
-                                }} /></td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={!!user.chosen}
+                                        onChange={evt => {
+                                            toggleSelectUser(userIndex, evt.target.checked)
+                                        }}
+                                    />
+                                </td>
+                                <td>{user.id}</td>
                                 <td>{user.name}</td>
                                 <td>{user.age}</td>
                                 <td>{user.city}</td>
@@ -170,13 +206,16 @@ const App = () => {
                                 <td>{user.hobbies && user.hobbies.join(', ')}</td>
                                 <td>{String(user.chosen)}</td>
                                 <td>{String(user.isMatched)}</td>
-                            </tr>))}
-                    </tbody>)
-                    : (<tbody>
+                            </tr>
+                        ))}
+                    </tbody>
+                ) : (
+                    <tbody>
                         <tr>
                             <td colSpan={10}>No users found.</td>
                         </tr>
-                    </tbody>)}
+                    </tbody>
+                )}
             </table>
         </div>
     )
