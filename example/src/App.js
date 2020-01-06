@@ -3,14 +3,14 @@ import './index.css'
 import { useList } from 'use-list'
 
 const columns = [
-    { id: 'id', title: 'ID', sort: null },
-    { id: 'name', title: 'Name', sort: null },
-    { id: 'age', title: 'Age', sort: null },
-    { id: 'city', title: 'City', sort: null },
-    { id: 'state', title: 'State', sort: null },
-    { id: 'hobbies', title: 'Hobbies', sort: null },
-    { id: 'user.chosen', title: 'user.chosen', sort: null },
-    { id: 'user.isMatched', title: 'user.isMatched', sort: null },
+    { id: 'id', title: 'ID', sortAsc: null, width: '60px' },
+    { id: 'name', title: 'Name', sortAsc: null, width: '160px' },
+    { id: 'age', title: 'Age', sortAsc: null, width: '100px' },
+    { id: 'city', title: 'City', sortAsc: null, width: '100px' },
+    { id: 'state', title: 'State', sortAsc: null, width: '100px' },
+    { id: 'hobbies', title: 'Hobbies', sortAsc: null, width: '160px' },
+    { id: 'user.chosen', title: 'user.chosen', sortAsc: null, width: '160px' },
+    { id: 'user.isMatched', title: 'user.isMatched', sortAsc: null, width: '200px' },
 ]
 
 const sampleList = [
@@ -86,8 +86,9 @@ const App = () => {
         toggleSelectAllItems: toggleSelectAllUsers,
     } = useList([], { selectedProp: 'chosen' })
 
-    const [filter, setFilter] = useState('')
-    const [cityFilter, setCityFilter] = useState('')
+    const [sortByColumnId, setSortByColumnId] = useState('id')
+    const [sortAsc, setSortAsc] = useState(true)
+
     const newUser = {
         id: 10 + Math.round(Math.random() * 100),
         name: 'Edwin Thomas',
@@ -109,11 +110,6 @@ const App = () => {
         toggleSelectAllUsers(!allUsersSelected)
         setAllUsersSelected(!allUsersSelected)
     }
-
-    /*const handleFilterChange = (filterBy, filterTerm) => {
-        filterUsers(filterBy, filterTerm)
-        setFilter(filterTerm)
-    }*/
 
     return (
         <div>
@@ -155,20 +151,31 @@ const App = () => {
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
-                        {columns.map((column) => (
-                            <th>
-                                <div onClick={() => {
-                                    sortUsers(column.id, column.sort)
-                                    column.sort = !column.sort
-                                }}>{column.title} {column.sort ? <span>&#9650;</span> : <span>&#9660;</span>}
+                        <th style={{ width: '20px' }}>
+                            <input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} />
+                        </th>
+                        {columns.map(column => (
+                            <th style={{ width: column.width }}>
+                                <div
+                                    style={{ paddingBottom: '10px' }}
+                                    onClick={() => {
+                                        sortUsers(column.id, !sortAsc)
+                                        setSortByColumnId(column.id)
+                                        setSortAsc(!sortAsc)
+                                    }}>
+                                    {column.title} {column.id === sortByColumnId && (sortAsc ? <span>&#9650;</span> : <span>&#9660;</span>)}
                                 </div>
                                 <div>
-                                    <input type="text" placeholder="Search" value={column.filter} onChange={(event) => {
-                                        filterUsers(column.id, event.target.value)
-                                        column.filter = event.target.value
-                                        setFilter(event.target.value)
-                                    }}/>
+                                    <input
+                                        type="text"
+                                        style={{ width: '100%' }}
+                                        placeholder="Search"
+                                        value={column.filter}
+                                        onChange={event => {
+                                            filterUsers(column.id, event.target.value)
+                                            column.filter = event.target.value
+                                        }}
+                                    />
                                 </div>
                             </th>
                         ))}
@@ -176,38 +183,6 @@ const App = () => {
                 </thead>
                 {users && users.length > 0 ? (
                     <tbody>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Filter by name"
-                                    value={filter}
-                                    onChange={evt => {
-                                        filterUsers('name', evt.target.value)
-                                        setFilter(evt.target.value)
-                                    }}
-                                />
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Filter by city"
-                                    value={cityFilter}
-                                    onChange={evt => {
-                                        filterUsers('city', evt.target.value)
-                                        setCityFilter(evt.target.value)
-                                    }}
-                                />
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        {/*{([filter, cityFilter].some(item => item !== '') ? users.filter(user => user.isMatched) : users).map((user, userIndex) => (*/}
                         {users
                             .filter(user => user.isMatched)
                             .map((user, userIndex) => (

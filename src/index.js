@@ -46,7 +46,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
     }
 
     const filterItems = (property = null, query) => {
-        if(property == null || typeof property !== 'string' || !options){
+        if (property == null || typeof property !== 'string' || !options) {
             return
         }
         let updatedList = clone(listData)
