@@ -47,7 +47,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
     }
 
     const filterItems = (property = null, query) => {
-        if(property == null || !options){
+        if(property == null || typeof property !== 'string' || !options){
             return
         }
         options = {...defaultOptions, ...options}

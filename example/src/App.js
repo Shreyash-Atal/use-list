@@ -2,13 +2,13 @@ import React, {useState} from 'react'
 import './index.css'
 import {useList} from 'use-list'
 
-const columns = [{id: 'name', title: 'Name', sort: null},
-            {id: 'age', title: 'Age', sort: null},
-            {id: 'city', title: 'City', sort: null},
-            {id: 'state', title: 'State', sort: null},
-            {id: 'hobbies', title: 'Hobbies', sort: null},
-            {id: 'user.chosen', title: 'user.chosen', sort: null},
-            {id: 'user.isMatched', title: 'user.isMatched', sort: null}
+const columns = [{id: 'name', title: 'Name', sort: null, filter: ''},
+            {id: 'age', title: 'Age', sort: null, filter: ''},
+            {id: 'city', title: 'City', sort: null, filter: ''},
+            {id: 'state', title: 'State', sort: null, filter: ''},
+            {id: 'hobbies', title: 'Hobbies', sort: null, filter: ''},
+            {id: 'user.chosen', title: 'user.chosen', sort: null, filter: ''},
+            {id: 'user.isMatched', title: 'user.isMatched', sort: null, filter: ''}
 ]
 const sampleList = [
     {
@@ -105,11 +105,6 @@ const App = () => {
         setAllUsersSelected(!allUsersSelected)
     }
 
-    const handleFilterChange = event => {
-        filterUsers('name', event.target.value)
-        setFilter(event.target.value);
-      };
-
     return (
         <div>
             <div>
@@ -137,23 +132,33 @@ const App = () => {
                 </button>
             </div>
             <br />
-            <input type="text" placeholder="Search" value={filter} onChange={handleFilterChange}/>
+
             <br />
             <table border={1} cellPadding={10} style={{borderColor: '#cccccc', borderCollapse: 'collapse'}}>
                 <thead>
                     <tr>
                         <th><input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} /></th>
                 {columns.map((column) => (
-                    <th onClick= {()=> {
+                    <th>
+                    <div onClick= {()=> {
                             sortUsers(column.id, column.sort)
                             column.sort = !column.sort
-                        }}>{column.title} {column.sort? <span>&#9650;</span>: <span>&#9660;</span>}</th>
+                        }}>{column.title} {column.sort? <span>&#9650;</span>: <span>&#9660;</span>}
+                    </div>
+                    <div>
+                    <input type="text" placeholder="Search" value={column.filter} onChange = { (event)=> {
+                        filterUsers(column.id, event.target.value)
+                        column.filter = event.target.value
+                        setFilter(event.target.value)
+                    }}/>
+                    </div>
+                    </th>
                 ))}
                     </tr>
                 </thead>
                 {(users && users.length > 0) ? (
                     <tbody>
-                        {((filter != '')?users.filter(user => user.isMatched) : users).map((user, userIndex) => (
+                        {((filter !== '')?users.filter(user => user.isMatched) : users).map((user, userIndex) => (
                             <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
                                 <td><input type="checkbox" checked={!!user.chosen} onChange={(evt) => {
                                     toggleSelectUser(userIndex, evt.target.checked)
