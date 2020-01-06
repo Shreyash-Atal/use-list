@@ -23,6 +23,7 @@
         "semi": [2, "never"],
         // don't force es6 functions to include space before paren
         "space-before-function-paren": 0,
+        "spaced-comment": 0,
         // allow specifying true explicitly for boolean props
         "react-hooks/exhaustive-deps": 0,
         "react/jsx-boolean-value": 0,
