@@ -76,6 +76,7 @@ const App = () => {
     const {
         list: users,
         addItem: addUser,
+        // clearFilters,
         deleteItem: deleteUser,
         deleteItems: deleteUsers,
         setList: setUsers,
@@ -86,6 +87,7 @@ const App = () => {
     } = useList([], { selectedProp: 'chosen' })
 
     const [filter, setFilter] = useState('')
+    const [cityFilter, setCityFilter] = useState('')
     const newUser = {
         id: 10 + Math.round(Math.random() * 100),
         name: 'Edwin Thomas',
@@ -108,10 +110,10 @@ const App = () => {
         setAllUsersSelected(!allUsersSelected)
     }
 
-    const handleFilterChange = event => {
-        filterUsers('name', event.target.value)
-        setFilter(event.target.value)
-    }
+    /*const handleFilterChange = (filterBy, filterTerm) => {
+        filterUsers(filterBy, filterTerm)
+        setFilter(filterTerm)
+    }*/
 
     return (
         <div>
@@ -178,36 +180,57 @@ const App = () => {
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>
-                                <input type="text" placeholder="Filter by name" value={filter} onChange={handleFilterChange} />
+                                <input
+                                    type="text"
+                                    placeholder="Filter by name"
+                                    value={filter}
+                                    onChange={evt => {
+                                        filterUsers('name', evt.target.value)
+                                        setFilter(evt.target.value)
+                                    }}
+                                />
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    placeholder="Filter by city"
+                                    value={cityFilter}
+                                    onChange={evt => {
+                                        filterUsers('city', evt.target.value)
+                                        setCityFilter(evt.target.value)
+                                    }}
+                                />
                             </td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
                         </tr>
-                        {(filter !== '' ? users.filter(user => user.isMatched) : users).map((user, userIndex) => (
-                            <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={!!user.chosen}
-                                        onChange={evt => {
-                                            toggleSelectUser(userIndex, evt.target.checked)
-                                        }}
-                                    />
-                                </td>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td>{user.age}</td>
-                                <td>{user.city}</td>
-                                <td>{user.state}</td>
-                                <td>{user.hobbies && user.hobbies.join(', ')}</td>
-                                <td>{String(user.chosen)}</td>
-                                <td>{String(user.isMatched)}</td>
-                            </tr>
-                        ))}
+                        {/*{([filter, cityFilter].some(item => item !== '') ? users.filter(user => user.isMatched) : users).map((user, userIndex) => (*/}
+                        {users
+                            .filter(user => user.isMatched)
+                            .map((user, userIndex) => (
+                                <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={!!user.chosen}
+                                            onChange={evt => {
+                                                toggleSelectUser(userIndex, evt.target.checked)
+                                            }}
+                                        />
+                                    </td>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.age}</td>
+                                    <td>{user.city}</td>
+                                    <td>{user.state}</td>
+                                    <td>{user.hobbies && user.hobbies.join(', ')}</td>
+                                    <td>{String(user.chosen)}</td>
+                                    <td>{String(user.isMatched)}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 ) : (
                     <tbody>
