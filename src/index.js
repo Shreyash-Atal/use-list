@@ -51,10 +51,12 @@ export const useList = (inputList = [], options = defaultOptions) => {
         }
         let updatedList = clone(listData)
         updatedList.forEach(item => {
-            const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property]
-            const q = typeof item[property] === 'string' ? query.toLowerCase() : query
-            item[options.matchedProp] = x.includes(q)
-            return item
+            if(!!item[property]){
+                const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property].toString()
+                const q = typeof item[property] === 'string' ? query.toLowerCase() : query
+                item[options.matchedProp] = x.includes(q)
+                return item
+            }
         })
         setListData(updatedList)
     }

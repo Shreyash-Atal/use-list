@@ -88,6 +88,7 @@ const App = () => {
 
     const [sortByColumnId, setSortByColumnId] = useState('id')
     const [sortAsc, setSortAsc] = useState(true)
+    const [filterTerms, setFilterTerms] = useState({})
 
     const newUser = {
         id: 10 + Math.round(Math.random() * 100),
@@ -170,10 +171,13 @@ const App = () => {
                                         type="text"
                                         style={{ width: '100%' }}
                                         placeholder="Search"
-                                        value={column.filter}
+                                        value={filterTerms[column.id]}
                                         onChange={event => {
-                                            filterUsers(column.id, event.target.value)
-                                            column.filter = event.target.value
+                                            const term = event.target.value
+                                            filterUsers(column.id, term)
+                                            setFilterTerms(prevState => {
+                                                return {...prevState, [column.id]: term}
+                                            })
                                         }}
                                     />
                                 </div>
