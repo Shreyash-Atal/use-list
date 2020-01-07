@@ -51,7 +51,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
         }
         let updatedList = clone(listData)
         updatedList.forEach(item => {
-            if(!!item[property]){
+            if(!!item || !!item[property]) {
                 const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property].toString()
                 const q = typeof item[property] === 'string' ? query.toLowerCase() : query
                 item[options.matchedProp] = x.includes(q)
