@@ -17,19 +17,21 @@ export const useList = (inputList = [], options = defaultOptions) => {
 
     const setList = useCallback(list => {
         const updatedList = list.map(item => {
-            const selectedProp = (options && options.selectedProp) || 'isSelected'
-            const matchedProp = (options && options.matchedProp) || 'isMatched'
-            item[selectedProp] = !!item[selectedProp]
-            // item[matchedProp] = !!item[matchedProp]
-            item[matchedProp] = true
-            return item
+            if(!!item){
+                const selectedProp = (options && options.selectedProp) || 'isSelected'
+                const matchedProp = (options && options.matchedProp) || 'isMatched'
+                item[selectedProp] = !!item[selectedProp]
+                // item[matchedProp] = !!item[matchedProp]
+                item[matchedProp] = true
+                return item
+            }
         })
         setListData(updatedList)
     }, [])
 
     const addItem = (item = {}, index = 0) => {
         const updatedList = clone(listData)
-        updatedList.splice(index, 0, clone(item))
+        !!item ? updatedList.splice(index, 0, clone(item)) : false
         setList(updatedList)
     }
 
@@ -51,10 +53,12 @@ export const useList = (inputList = [], options = defaultOptions) => {
         }
         let updatedList = clone(listData)
         updatedList.forEach(item => {
-            const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property]
-            const q = typeof item[property] === 'string' ? query.toLowerCase() : query
-            item[options.matchedProp] = x.includes(q)
-            return item
+            if(!!item || !!item[property]) {
+                const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property].toString()
+                const q = typeof item[property] === 'string' ? query.toLowerCase() : query
+                item[options.matchedProp] = x.includes(q)
+                return item
+            }
         })
         setListData(updatedList)
     }
@@ -73,10 +77,10 @@ export const useList = (inputList = [], options = defaultOptions) => {
         }
         let updatedList = clone(listData)
         updatedList.sort(function(a, b) {
-            const x = typeof a[property] === 'string' ? a[property].toLowerCase() : a[property]
-            const y = typeof b[property] === 'string' ? b[property].toLowerCase() : b[property]
-            const returnValue = ascending ? -1 : 1
-            return x < y ? returnValue : x > y ? -returnValue : 0
+                const x = typeof a[property] === 'string' ? a[property].toLowerCase() : a[property]
+                const y = typeof b[property] === 'string' ? b[property].toLowerCase() : b[property]
+                const returnValue = ascending ? -1 : 1
+                return x < y ? returnValue : x > y ? -returnValue : 0
         })
         setListData(updatedList)
     }
