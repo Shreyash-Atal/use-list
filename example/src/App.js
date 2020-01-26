@@ -77,7 +77,6 @@ const App = () => {
     const {
         list: users,
         addItem: addUser,
-        // clearFilters,
         deleteItem: deleteUser,
         deleteItems: deleteUsers,
         setList: setUsers,
