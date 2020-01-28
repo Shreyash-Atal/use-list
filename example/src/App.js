@@ -171,7 +171,7 @@ const App = () => {
                                         type="text"
                                         style={{ width: '100%' }}
                                         placeholder="Search"
-                                        value={filterTerms[column.id]}
+                                        value={filterTerms[column.id] || ''}
                                         onChange={event => {
                                             const term = event.target.value
                                             filterUsers(column.id, term)
