@@ -16,7 +16,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
     }, [])
 
     const setList = useCallback(list => {
-        const updatedList = list.map(item => {
+        const updatedList = list.filter(item => item !== null).map(item => {
             if(!!item){
                 const selectedProp = (options && options.selectedProp) || 'isSelected'
                 const matchedProp = (options && options.matchedProp) || 'isMatched'
@@ -52,12 +52,14 @@ export const useList = (inputList = [], options = defaultOptions) => {
             return
         }
         let updatedList = clone(listData)
-        updatedList.forEach(item => {
-            if(!!item || !!item[property]) {
+        updatedList.filter(item=> item !== null).forEach(item => {
+            if(!!item[property]) {
                 const x = typeof item[property] === 'string' ? item[property].toLowerCase() : item[property].toString()
                 const q = typeof item[property] === 'string' ? query.toLowerCase() : query
                 item[options.matchedProp] = x.includes(q)
                 return item
+            } else {
+                item[options.matchedProp] = false
             }
         })
         setListData(updatedList)
@@ -76,11 +78,11 @@ export const useList = (inputList = [], options = defaultOptions) => {
             return
         }
         let updatedList = clone(listData)
-        updatedList.sort(function(a, b) {
-                const x = typeof a[property] === 'string' ? a[property].toLowerCase() : a[property]
-                const y = typeof b[property] === 'string' ? b[property].toLowerCase() : b[property]
+        updatedList.sort(function(currentItem, nextItem) {
+                const value = !!currentItem ? typeof currentItem[property] === 'string' ? currentItem[property].toLowerCase() : currentItem[property] : null
+                const nextValue = !!nextItem ? typeof nextItem[property] === 'string' ? nextItem[property].toLowerCase() : nextItem[property] : null
                 const returnValue = ascending ? -1 : 1
-                return x < y ? returnValue : x > y ? -returnValue : 0
+                return value < nextValue ? returnValue : value > nextValue ? -returnValue : 0
         })
         setListData(updatedList)
     }
