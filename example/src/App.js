@@ -176,7 +176,7 @@ const App = () => {
                                             const term = event.target.value
                                             filterUsers(column.id, term)
                                             setFilterTerms(prevState => {
-                                                return {...prevState, [column.id]: term}
+                                                return { ...prevState, [column.id]: term }
                                             })
                                         }}
                                     />
