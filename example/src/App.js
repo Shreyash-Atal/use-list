@@ -77,6 +77,7 @@ const App = () => {
     const {
         list: users,
         addItem: addUser,
+        updateItem: updateUser,
         deleteItem: deleteUser,
         deleteItems: deleteUsers,
         setList: setUsers,
@@ -183,6 +184,7 @@ const App = () => {
                                 </div>
                             </th>
                         ))}
+                        <th>Action</th>
                     </tr>
                 </thead>
                 {users && users.length > 0 ? (
@@ -201,13 +203,18 @@ const App = () => {
                                         />
                                     </td>
                                     <td>{user.id}</td>
-                                    <td>{user.name}</td>
+                                    <td  key={user.name}>
+                                        <input type="text" name="name" value={user.name} onChange={()=>{updateUser(user, userIndex)}}/>
+                                    </td>
                                     <td>{user.age}</td>
                                     <td>{user.city}</td>
                                     <td>{user.state}</td>
                                     <td>{user.hobbies && user.hobbies.join(', ')}</td>
                                     <td>{String(user.chosen)}</td>
                                     <td>{String(user.isMatched)}</td>
+                                    <td><button onClick={() => {
+                                            updateUser(user, userIndex)
+                                        }}>Update</button></td>
                                 </tr>
                             ))}
                     </tbody>
