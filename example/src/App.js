@@ -22,7 +22,7 @@ const sampleList = [
         state: 'NY',
         hobbies: ['Basketball', 'Football', ''],
     },
-    null,
+    // null,
     {
         id: 1,
         name: 'Bob Jones',
@@ -90,6 +90,7 @@ const App = () => {
     const [sortByColumnId, setSortByColumnId] = useState('id')
     const [sortAsc, setSortAsc] = useState(true)
     const [filterTerms, setFilterTerms] = useState({})
+    const [editMode, setEditMode] = useState(false)
 
     const newUser = {
         id: 10 + Math.round(Math.random() * 100),
@@ -129,7 +130,7 @@ const App = () => {
                     }}>
                     Add User
                 </button>
-                &nbsp;
+                <span>&nbsp; &nbsp; &nbsp; &nbsp;</span>
                 <button
                     onClick={() => {
                         deleteUser(0)
@@ -148,6 +149,24 @@ const App = () => {
                     }}>
                     Delete Selected Users
                 </button>
+                <span>&nbsp; &nbsp; &nbsp; &nbsp;</span>
+                <span>
+                    {editMode ? (
+                        <button
+                            onClick={() => {
+                                setEditMode(false)
+                            }}>
+                            Save
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                setEditMode(true)
+                            }}>
+                            Edit
+                        </button>
+                    )}
+                </span>
             </div>
             <br />
             <table>
@@ -156,8 +175,8 @@ const App = () => {
                         <th style={{ width: '20px' }}>
                             <input type="checkbox" checked={allUsersSelected} onChange={handleSelectAllUsers} />
                         </th>
-                        {columns.map(column => (
-                            <th style={{ width: column.width }}>
+                        {columns.map((column, columnIndex) => (
+                            <th key={columnIndex} style={{ width: column.width }}>
                                 <div
                                     style={{ paddingBottom: '10px' }}
                                     onClick={() => {
@@ -184,7 +203,6 @@ const App = () => {
                                 </div>
                             </th>
                         ))}
-                        <th>Action</th>
                     </tr>
                 </thead>
                 {users && users.length > 0 ? (
@@ -203,8 +221,15 @@ const App = () => {
                                         />
                                     </td>
                                     <td>{user.id}</td>
-                                    <td  key={user.name}>
-                                        <input type="text" name="name" value={user.name} onChange={()=>{updateUser(user, userIndex)}}/>
+                                    <td>
+                                        {editMode ? <input
+                                            type="text"
+                                            name="name"
+                                            value={user.name}
+                                            onChange={evt => {
+                                                updateUser({ name: evt.target.value }, userIndex)
+                                            }}
+                                        /> : <span>{user.name}</span>}
                                     </td>
                                     <td>{user.age}</td>
                                     <td>{user.city}</td>
@@ -212,9 +237,6 @@ const App = () => {
                                     <td>{user.hobbies && user.hobbies.join(', ')}</td>
                                     <td>{String(user.chosen)}</td>
                                     <td>{String(user.isMatched)}</td>
-                                    <td><button onClick={() => {
-                                            updateUser(user, userIndex)
-                                        }}>Update</button></td>
                                 </tr>
                             ))}
                     </tbody>
