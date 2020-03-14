@@ -37,6 +37,12 @@ export const useList = (inputList = [], options = defaultOptions) => {
         setList(updatedList)
     }
 
+    const updateItem = (item = {}, index) => {
+        let newArr = [...listData]; // copying the old datas array
+        newArr[index] = item; // replace item with whatever you want to change it to
+        setListData(newArr)
+    }
+
     const deleteItem = (index = null) => {
         const updatedList = clone(listData)
 
@@ -110,6 +116,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
     return {
         list: listData,
         addItem,
+        updateItem,
         clearFilters,
         deleteItem,
         deleteItems,
