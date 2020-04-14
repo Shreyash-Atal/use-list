@@ -20,6 +20,7 @@ https://codesandbox.io/s/inspiring-water-uq7g4
 | Inputs | README |
 | ------ | ------ |
 | addItem | For adding item in the list |
+| updateItem | For updating item in the list |
 | deleteItem | For deleting first item in the list |
 | deleteItems | For deleting selected item(s) in the list |
 | sortItems | For sorting item(s) in the list |

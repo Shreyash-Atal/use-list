@@ -231,10 +231,39 @@ const App = () => {
                                             }}
                                         /> : <span>{user.name}</span>}
                                     </td>
-                                    <td>{user.age}</td>
-                                    <td>{user.city}</td>
-                                    <td>{user.state}</td>
-                                    <td>{user.hobbies && user.hobbies.join(', ')}</td>
+                                    <td>
+                                    {editMode ? <input
+                                            type="number"
+                                            name="age"
+                                            value={user.age}
+                                            onChange={evt => {
+                                                updateUser({ age: evt.target.value }, userIndex)
+                                            }}
+                                        /> : <span>{user.age}</span>}
+                                    </td>
+                                    <td>
+                                    {editMode ? <input
+                                            type="text"
+                                            name="city"
+                                            value={user.city}
+                                            onChange={evt => {
+                                                updateUser({ city: evt.target.value }, userIndex)
+                                            }}
+                                        /> : <span>{user.city}</span>}
+                                        </td>
+                                    <td>
+                                    {editMode ? <input
+                                            type="text"
+                                            name="state"
+                                            value={user.state}
+                                            onChange={evt => {
+                                                updateUser({ state: evt.target.value }, userIndex)
+                                            }}
+                                        /> : <span>{user.state}</span>}
+                                    </td>
+                                    <td>
+                                    {user.hobbies && user.hobbies.join(', ')}
+                                    </td>
                                     <td>{String(user.chosen)}</td>
                                     <td>{String(user.isMatched)}</td>
                                 </tr>
