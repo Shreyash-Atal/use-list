@@ -37,10 +37,22 @@ export const useList = (inputList = [], options = defaultOptions) => {
         setList(updatedList)
     }
 
+    const addItems = (items = [], atEnd = true) => {
+        if ((items && items.length)) {
+            setList(atEnd ? [...clone(listData), ...items] : [...items, ...clone(listData)])
+        }
+    }
+
     const updateItem = (changes = {}, index) => {
         let updatedList = clone(listData)
         updatedList[index] = { ...updatedList[index], ...changes }
         setListData(updatedList)
+    }
+
+    const updateItems = (changes = {}, indices = []) => {
+        if ((indices && indices.length)) {
+            setListData(clone(listData).map((item, itemIndex) => indices.includes(itemIndex) ? ({ ...item, ...changes }) : item))
+        }
     }
 
     const deleteItem = (index = null) => {
@@ -88,7 +100,7 @@ export const useList = (inputList = [], options = defaultOptions) => {
             return
         }
         let updatedList = clone(listData)
-        updatedList.sort(function(currentItem, nextItem) {
+        updatedList.sort(function (currentItem, nextItem) {
             const value = currentItem ? (typeof currentItem[property] === 'string' ? currentItem[property].toLowerCase() : currentItem[property]) : null
             const nextValue = nextItem ? (typeof nextItem[property] === 'string' ? nextItem[property].toLowerCase() : nextItem[property]) : null
             const returnValue = ascending ? -1 : 1
@@ -116,7 +128,9 @@ export const useList = (inputList = [], options = defaultOptions) => {
     return {
         list: listData,
         addItem,
+        addItems,
         updateItem,
+        updateItems,
         clearFilters,
         deleteItem,
         deleteItems,
