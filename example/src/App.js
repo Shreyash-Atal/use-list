@@ -65,7 +65,7 @@ const sampleList = [
     },
     {
         id: 6,
-        name: 'Chris Harris',
+        name: 'Gill Harris',
         age: null,
         city: 'Chicago',
         state: 'IL',
@@ -73,11 +73,51 @@ const sampleList = [
     },
 ]
 
+const sampleList2 = [
+    {
+        id: 7,
+        name: 'Harry Brown',
+        age: 30,
+        city: 'Las Vegas',
+        state: 'NV',
+        hobbies: null,
+    },
+    {
+        id: 8,
+        name: 'Ian Mason',
+        age: null,
+        city: 'Seattle',
+        state: 'WA',
+        hobbies: ['Tennis', 'Biking'],
+    }
+]
+
+const sampleList3 = [
+    {
+        id: 9,
+        name: 'Jill Roberts',
+        age: 24,
+        city: 'New York',
+        state: 'NY',
+        hobbies: ['Skiing'],
+    },
+    {
+        id: 10,
+        name: 'Kelly Wilson',
+        age: null,
+        city: 'Washington',
+        state: 'DC',
+        hobbies: ['Volleyball', 'Skating'],
+    }
+]
+
 const App = () => {
     const {
         list: users,
         addItem: addUser,
+        addItems: addUsers,
         updateItem: updateUser,
+        updateItems: updateUsers,
         deleteItem: deleteUser,
         deleteItems: deleteUsers,
         setList: setUsers,
@@ -129,6 +169,27 @@ const App = () => {
                         addUser(newUser, 2)
                     }}>
                     Add User
+                </button>
+                &nbsp;
+                <button
+                    onClick={() => {
+                        addUsers(sampleList2, false)
+                    }}>
+                    Add Users at the Top
+                </button>
+                &nbsp;
+                <button
+                    onClick={() => {
+                        addUsers(sampleList3, true)
+                    }}>
+                    Add Users at the Bottom
+                </button>
+                &nbsp;
+                <button
+                    onClick={() => {
+                        updateUsers({ hobbies: ['Tennis'] }, [1, 5])
+                    }}>
+                    Update Bob and Fred
                 </button>
                 <span>&nbsp; &nbsp; &nbsp; &nbsp;</span>
                 <button
@@ -210,7 +271,7 @@ const App = () => {
                         {users
                             .filter(user => user && user.isMatched)
                             .map((user, userIndex) => (
-                                <tr key={user.id} className={user.chosen ? 'selected-row' : ''}>
+                                <tr key={userIndex + '-' + user.id} className={user.chosen ? 'selected-row' : ''}>
                                     <td>
                                         <input
                                             type="checkbox"
